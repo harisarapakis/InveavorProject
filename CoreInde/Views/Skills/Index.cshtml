@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CoreInde.Models.Skills>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Available skills required for any job in the company</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+        <table id="skills" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Skill</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <form method="post" asp-controller="Skills" asp-action="Export">
+            <input class="btn btn-sm btn-primary" type="submit" value="Export" />
+        </form>
+
+
+<script>
+    $(document).ready(function () {
+        var table = $("#skills").DataTable({
+            ajax: {
+                url: "/api/SkillsApi/",
+                dataSrc: ""
+            },
+            columns: [
+                {
+                    data: "skills",
+                    render: function (data, type, skills) {
+                        return "<a href='/skills/edit/" + skills.id + "'>" + skills.name + "</a>";
+                    }
+                },
+               
+                
+            ]
+        });
+
+    });
+</script>

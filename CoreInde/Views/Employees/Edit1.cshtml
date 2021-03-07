@@ -1,0 +1,124 @@
+﻿@model CoreInde.ViewModels.EmployeeSkillViewModel
+
+
+
+<div class="form-group">
+    <input type="hidden" class="form-control" id="Id" readonly />
+</div>
+<div class="form-group">
+    <label for="firstName">First Name:</label>
+    <input type="text" class="form-control" id="firstName" />
+</div>
+<div class="form-group">
+    <label for="lastName">Last Name:</label>
+    <input type="text" class="form-control" id="lastName" />
+</div>
+
+<div class="form-group">
+    <label for="skills">Skills:</label>
+    <input type="text" class="form-control" id="skills" />
+</div>
+<div class="text-center panel-body">
+    <button asp-action="Index" type="submit" class="btn btn-sm btn-primary" id="UpdateButton">Update</button>
+</div>
+<hr />
+<div class="text-center panel-body">
+    <button asp-action="Index" class="btn btn-sm btn-primary" id="deleteButton">Delete</button>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        GetEmployee();
+
+        function GetEmployee() {
+
+
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+
+
+
+            $.ajax({
+                url: "/api/EmployeesApi/" + id,
+                type: "get",
+                contentType: "application/json",
+                success: function (result, status, xhr) {
+                    $("#Id").val(result["id"]);
+                    $("#firstName").val(result["fistName"]);
+                    $("#lastName").val(result["lastName"]);
+                    $("#hiringDate").val(result["hiringDate"]);
+                    $("#skills").val(result["skillset"]["name"]);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                }
+            });
+
+        }
+
+        $("#UpdateButton").click(function () {
+            var options = {};
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+            options.url = "/api/EmployeesApi/"
+                + id;
+            options.type = "PUT";
+            var obj = {};
+            obj.fistName = $("#firstName").val();
+            obj.lastName = $("#lastName").val();
+            obj.hiringDate = $("#hiringDate").val();
+
+            obj.skillset = $("#skills").val();
+
+            console.log(obj)
+
+            options.data = JSON.stringify(obj);
+            options.contentType = "application/json";
+            options.dataType = "html";
+            options.success = function (msg) {
+                $("#msg").html(msg);
+            };
+            options.error = function (a, b, c) {
+                alert(c);
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+        $("#deleteButton").on("click", function () {
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+
+            bootbox.confirm("Are you sure you want to delete this employee?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/api/EmployeesApi/" + id,
+                        method: "DELETE",
+                        success: function () {
+                            console.log('success');
+                            table.row(button.parents("tr")).remove().draw();
+                        }
+                    });
+                }
+
+
+            });
+
+        });
+
+    });
+</script>

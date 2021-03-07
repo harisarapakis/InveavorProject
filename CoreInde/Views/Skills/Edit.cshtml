@@ -1,0 +1,122 @@
+﻿@model CoreInde.Models.Skills
+
+
+
+<div class="form-group">
+    
+    <input type="hidden" class="form-control" id="Id" readonly />
+</div>
+<div class="form-group">
+    <label for="skill">Skill:</label>
+    <input type="text" class="form-control" id="skill" />
+</div>
+<div >
+    <label for="dateOfSkillCreation">Date Of Skill Creation:</label>
+    <input type="datetime" class="form-control" id="dateOfSkillCreation" readonly/>
+</div>
+
+<div class="form-group">
+    <label for="description">Description :</label>
+    <input type="text" class="form-control" id="description" />
+</div>
+
+<div class="text-center panel-body">
+    <button type="submit" class="btn btn-sm btn-primary" id="UpdateButton">Update</button>
+</div>
+<hr />
+<div class="text-center panel-body">
+    <button  id="deleteButton">Delete</button>
+</div>
+
+
+<p id="msg"> </p>
+
+
+<script>
+    $(document).ready(function () {
+        GetReservation();
+
+        function GetReservation() {
+           
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+
+
+
+            $.ajax({
+                url: "/api/skillsapi/" + id,
+                type: "get",
+                contentType: "application/json",
+                success: function (result, status, xhr) {
+
+                    $("#Id").val(result["id"]);
+                    $("#skill").val(result["name"]);
+                    $("#dateOfSkillCreation").val(result["dateOfSkillCreation"]);
+                    $("#description").val(result["description"]);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                }
+            });
+        }
+       
+        $("#UpdateButton").click(function () {
+            var options = {};
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+            options.url = "/api/skillsapi/"
+                + id;
+            options.type = "PUT";
+            var obj = {};
+            obj.skill = $("#skill").val();
+            obj.dateOfSkillCreation = $("#dateOfSkillCreation").val();
+            obj.description = $("#description").val();
+
+            options.data = JSON.stringify(obj);
+            options.contentType = "application/json";
+            options.dataType = "html";
+            options.success = function (msg) {
+                $("#msg").html(msg);
+            };
+            options.error = function (a, b, c) {
+                alert(c);
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+        $("#deleteButton").on("click", function () {
+            function getLastNumberOfString(str) {
+                var allNumbers = str.replace(/[^0-9]/g, ' ').trim().split(/\s+/);
+                return parseInt(allNumbers[allNumbers.length - 1], 10);
+            }
+            var href = $(location).attr('href');
+            let id = getLastNumberOfString(href);
+
+            bootbox.confirm("Are you sure you want to delete this skill?", function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/api/skillsapi/" + id,
+                        method: "DELETE",
+                        success: function () {
+                            console.log('success');
+                            table.row(button.parents("tr")).remove().draw();
+                        }
+                    });
+                }
+
+
+            });
+
+        });
+
+    });
+</script>

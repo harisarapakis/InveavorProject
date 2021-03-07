@@ -1,0 +1,64 @@
+﻿@model CoreInde.Models.Employees
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<form>
+    <table class="table table-bordered table-hover">
+
+        <tr>
+            <td>Fist Name:</td>
+            <td><input id="fistName" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Last Name :</td>
+            <td><input id="lastName" type="text" /></td>
+        </tr>
+        
+        <tr>
+            <td>Skills :</td>
+            <td><input id="skills" type="text" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" id="insert"
+                       value="Create" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div id="msg"></div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    $("#insert").click(function () {
+        var options = {};
+        options.url = "/api/EmployeesApi/";
+        options.type = "POST";
+
+        var obj = {};
+
+        obj.fistName = $("#fistName").val();
+        obj.lastName = $("#lastName").val();
+        obj.hiringDate = $("#hiringDate").val();
+        obj.skills = $("#skills").val();
+
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+
+        options.success = function (msg) {
+            $("#msg").html(msg);
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+</script>

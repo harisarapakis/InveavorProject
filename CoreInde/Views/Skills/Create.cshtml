@@ -1,0 +1,60 @@
+﻿@model CoreInde.Models.Skills
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<form>
+    <table class="table table-bordered table-hover">
+
+        <tr>
+            <td>Skill:</td>
+            <td><input id="skill" type="text" /></td>
+        </tr>
+        
+        <tr>
+            <td>Description :</td>
+            <td><input id="description" type="text" /></td>
+        </tr>
+        
+        <tr>
+            <td colspan="2">
+                <input class="btn btn-sm btn-primary" type="button" id="insert"
+                       value="Create" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div id="msg"></div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    $("#insert").click(function () {
+        var options = {};
+        options.url = "/api/skillsapi/";
+        options.type = "POST";
+
+        var obj = {};
+
+        obj.skill = $("#skill").val();
+        obj.dateOfSkillCreation = $("#dateOfSkillCreation").val();
+        obj.description = $("#description").val();
+
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+
+        options.success = function (msg) {
+            $("#msg").html(msg);
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+</script>
