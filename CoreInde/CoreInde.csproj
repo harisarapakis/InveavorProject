@@ -39,4 +39,8 @@
     <Folder Include="wwwroot\jquery\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Layout\js\scripts.js" />
+  </ItemGroup>
+
 </Project>
