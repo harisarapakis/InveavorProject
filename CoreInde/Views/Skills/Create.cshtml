@@ -1,10 +1,21 @@
 ﻿@model CoreInde.Models.Skills
 
-@{
-    ViewData["Title"] = "Create";
-}
+@{ ViewData["Title"] = "Create"; }
+
+<style>
+    hr {
+        padding: 0px;
+        margin: 0px;
+    }
+</style>
+
+<hr />
+<hr />
+
+<h3>Create Skill</h3>
 
 
+<hr />
 <form>
     <table class="table table-bordered table-hover">
 
@@ -12,12 +23,12 @@
             <td>Skill:</td>
             <td><input id="skill" type="text" /></td>
         </tr>
-        
+
         <tr>
             <td>Description :</td>
             <td><input id="description" type="text" /></td>
         </tr>
-        
+
         <tr>
             <td colspan="2">
                 <input class="btn btn-sm btn-primary" type="button" id="insert"
