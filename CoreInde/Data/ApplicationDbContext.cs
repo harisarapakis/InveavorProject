@@ -13,16 +13,15 @@ namespace CoreInde.Data
             : base(options)
         {
         }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Skills>()
-        //        .HasOne(b => b.Employees)
-        //        .WithOne(i => i.Skills)
-        //        .HasForeignKey<Employees>(b => b.SkillsId);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employees>()
+             .HasOne(p => p.Skills)
+             .WithMany(b => b.Employees)
+             .HasForeignKey(p => p.SkillsId);
+        }
         public DbSet<Skills> Skills { get; set; }
         public DbSet<Employees> Employees { get; set; }
-        public DbSet<Skillset> Skillsets { get; set; }
 
     }
 }

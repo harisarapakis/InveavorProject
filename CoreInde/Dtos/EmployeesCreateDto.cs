@@ -15,8 +15,7 @@ namespace CoreInde.Dtos
         [Required]
 
         public DateTime HiringDate { get; set; }
-        [Required]
-        public string Skills { get; set; }
+
 
         public EmployeesCreateDto()
         {

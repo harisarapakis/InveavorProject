@@ -9,10 +9,8 @@ namespace CoreInde.Dtos
 {
     public class SkillCreateDto
     {
-        [Required]
-        [MaxLength(250)]
-        public Skillset Skillset { get; set; }
-        [Required]
+
+        public string Name { get; set; }
 
         public DateTime DateOfSkillCreation { get; set; }
         [Required]

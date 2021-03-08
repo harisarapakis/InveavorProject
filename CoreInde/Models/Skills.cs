@@ -25,5 +25,7 @@ namespace CoreInde.Models
         {
             this.DateOfSkillCreation = DateTime.UtcNow;
         }
+
+        public ICollection<Employees> Employees { get; set; }
     }
 }

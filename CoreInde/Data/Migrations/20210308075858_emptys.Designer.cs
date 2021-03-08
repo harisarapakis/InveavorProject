@@ -4,14 +4,16 @@ using CoreInde.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreInde.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210308075858_emptys")]
+    partial class emptys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +39,12 @@ namespace CoreInde.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
+                    b.Property<byte>("SkillsetId")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillsId");
+                    b.HasIndex("SkillsetId");
 
                     b.ToTable("Employees");
                 });
@@ -71,20 +73,30 @@ namespace CoreInde.Data.Migrations
                     b.ToTable("Skills");
                 });
 
+            modelBuilder.Entity("CoreInde.Models.Skillset", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Skillsets");
+                });
+
             modelBuilder.Entity("CoreInde.Models.Employees", b =>
                 {
-                    b.HasOne("CoreInde.Models.Skills", "Skills")
-                        .WithMany("Employees")
-                        .HasForeignKey("SkillsId")
+                    b.HasOne("CoreInde.Models.Skillset", "Skillset")
+                        .WithMany()
+                        .HasForeignKey("SkillsetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Skills");
-                });
-
-            modelBuilder.Entity("CoreInde.Models.Skills", b =>
-                {
-                    b.Navigation("Employees");
+                    b.Navigation("Skillset");
                 });
 #pragma warning restore 612, 618
         }

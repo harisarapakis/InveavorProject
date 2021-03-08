@@ -17,9 +17,11 @@ namespace CoreInde.Dtos
         [Required]
 
         public DateTime HiringDate { get; set; }
-        public Skillset Skillset { get; set; }
-        public byte SkillsetId { get; set; }
 
+
+        public int SkillsId { get; set; }
+
+        public Skills Skills { get; set; }
 
         public EmployeesReadDto()
         {

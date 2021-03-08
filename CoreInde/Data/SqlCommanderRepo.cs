@@ -63,7 +63,7 @@ namespace CoreInde.Data
 
         public IEnumerable<Employees> GetAllEmployees()
         {
-            var query = _context.Employees.Include(s => s.Skillset).ToList();
+            var query = _context.Employees.Include(s => s.Skills).ToList();
             return query;
         }
 
@@ -74,7 +74,7 @@ namespace CoreInde.Data
 
         public Employees GetEmployeesById(int id)
         {
-            return _context.Employees.Include(s => s.Skillset).FirstOrDefault(p => p.Id == id);
+            return _context.Employees.Include(s => s.Skills).FirstOrDefault(p => p.Id == id);
         }
 
         public bool SaveChanges()

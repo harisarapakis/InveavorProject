@@ -8,7 +8,7 @@ namespace CoreInde.ViewModels
 {
     public class EmployeeSkillViewModel
     {
-        public IEnumerable<Skillset> Skillsets { get; set; }
+        public IEnumerable<Skills> Skillsets { get; set; }
         public Employees Employees { get; set; }
     }
 }
