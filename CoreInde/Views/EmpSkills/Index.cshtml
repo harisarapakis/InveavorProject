@@ -9,16 +9,14 @@
     <a asp-area="" asp-controller="Employees" asp-action="Create">Create Employee</a>
     <br />
 
-    <a asp-action="Create">Add a skill to the Employee</a>
+    <a asp-action="Create">Add or View Employee Skills</a>
 
 
 </p>
 <table id="employees" class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.FistName)
             </th>
@@ -38,9 +36,7 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.FistName)
             </td>
@@ -48,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HiringDate)
+                @Html.DisplayFor(modelItem => item.HiringDate.Date)
             </td>
             @foreach (var skill in item.Skills)
             {
@@ -56,11 +52,7 @@
                     @Html.DisplayFor(modelItem => skill.Name) ,
                 </td>
             }
-            @*<td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>*@
+         
         </tr>
         }
     </tbody>
