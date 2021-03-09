@@ -18,10 +18,7 @@ namespace CoreInde.Dtos
 
         public DateTime HiringDate { get; set; }
 
-
-        public int SkillsId { get; set; }
-
-        public Skills Skills { get; set; }
+        public ICollection<SkillReadDto> Skills { get; set; }
 
         public EmployeesReadDto()
         {

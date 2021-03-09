@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Employees1Controller.cs" />
     <Compile Remove="Data\MockCommanderRepo.cs" />
   </ItemGroup>
 
@@ -33,10 +34,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\jquery\" />
   </ItemGroup>
 
   <ItemGroup>

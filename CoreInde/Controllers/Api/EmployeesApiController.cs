@@ -18,20 +18,17 @@ namespace CoreInde.Controllers
     {
         private readonly ICommanderRepo _repository;
         private readonly IMapper _mapper;
-        private readonly ApplicationDbContext _context;
 
-        public EmployeesApiController(ICommanderRepo repository, IMapper mapper, ApplicationDbContext context)
+        public EmployeesApiController(ICommanderRepo repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _context = context;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<EmployeesReadDto>> GetAllEmployees()
         {
             var employeesItems = _repository.GetAllEmployees();
-
             return Ok(_mapper.Map<IEnumerable<EmployeesReadDto>>(employeesItems));
         }
 

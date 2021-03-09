@@ -4,14 +4,16 @@ using CoreInde.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreInde.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210308190602_Many-to-Many")]
+    partial class ManytoMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,20 +23,15 @@ namespace CoreInde.Data.Migrations
 
             modelBuilder.Entity("CoreInde.Models.EmpSkills", b =>
                 {
-                    b.Property<int>("Employee3Id")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Skills3Id")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EmpSkillDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                    b.HasKey("EmployeeId", "SkillsId");
 
-                    b.HasKey("Employee3Id", "Skills3Id");
-
-                    b.HasIndex("Skills3Id");
+                    b.HasIndex("SkillsId");
 
                     b.ToTable("EmpSkills");
                 });
@@ -76,6 +73,9 @@ namespace CoreInde.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EmployeesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -83,31 +83,42 @@ namespace CoreInde.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeesId");
+
                     b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("CoreInde.Models.EmpSkills", b =>
                 {
-                    b.HasOne("CoreInde.Models.Employees", "Employees3")
+                    b.HasOne("CoreInde.Models.Employees", "Employees")
                         .WithMany("EmpSkills")
-                        .HasForeignKey("Employee3Id")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoreInde.Models.Skills", "Skills3")
+                    b.HasOne("CoreInde.Models.Skills", "Skills")
                         .WithMany("EmpSkills")
-                        .HasForeignKey("Skills3Id")
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employees3");
+                    b.Navigation("Employees");
 
-                    b.Navigation("Skills3");
+                    b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("CoreInde.Models.Skills", b =>
+                {
+                    b.HasOne("CoreInde.Models.Employees", null)
+                        .WithMany("Skillset")
+                        .HasForeignKey("EmployeesId");
                 });
 
             modelBuilder.Entity("CoreInde.Models.Employees", b =>
                 {
                     b.Navigation("EmpSkills");
+
+                    b.Navigation("Skillset");
                 });
 
             modelBuilder.Entity("CoreInde.Models.Skills", b =>

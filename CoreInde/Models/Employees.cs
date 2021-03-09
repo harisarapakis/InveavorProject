@@ -17,10 +17,11 @@ namespace CoreInde.Models
         [Required]
 
         public DateTime HiringDate { get; set; }
-        [Display(Name = "Skills")]
-        public int SkillsId { get; set; }
+     
+        public ICollection<Skills> Skills { get; set; }
 
-        public Skills Skills { get; set; }
+        public List<EmpSkills> EmpSkills { get; set; }
+
 
         public Employees()
         {

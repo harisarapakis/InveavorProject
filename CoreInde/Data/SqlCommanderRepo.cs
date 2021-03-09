@@ -63,6 +63,7 @@ namespace CoreInde.Data
 
         public IEnumerable<Employees> GetAllEmployees()
         {
+            
             var query = _context.Employees.Include(s => s.Skills).ToList();
             return query;
         }

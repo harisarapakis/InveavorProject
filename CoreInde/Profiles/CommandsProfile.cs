@@ -24,6 +24,8 @@ namespace CoreInde.Profiles
             CreateMap<EmployeesUpdateDto, Employees>();
             CreateMap<Employees, EmployeesUpdateDto>();
 
+
+
         }
     }
 }

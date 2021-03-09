@@ -7,22 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreInde.Data;
 using CoreInde.Models;
+using AutoMapper;
+using CoreInde.Dtos;
 
 namespace CoreInde.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly ApplicationDbContext _context;
 
-        public EmployeesController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+
+        public EmployeesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Employees
         public ViewResult Index()
         {
-            return View();
+            var employeesItems = _context.Employees.Include(s => s.Skills).ToList();
+
+            return View(_mapper.Map<IEnumerable<EmployeesReadDto>>(employeesItems));
         }
         public ViewResult Index1()
         {
@@ -48,7 +55,7 @@ namespace CoreInde.Controllers
             {
                 return NotFound();
             }
-            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name", employees.SkillsId);
+            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name", employees.EmpSkills);
             return View(employees);
         }
 
@@ -84,7 +91,7 @@ namespace CoreInde.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name", employees.SkillsId);
+            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name", employees.EmpSkills);
             return View(employees);
         }
 
@@ -109,9 +116,9 @@ namespace CoreInde.Controllers
         }
 
         // GET: Employees1/Create
+        // GET: Employees1/Create
         public IActionResult Create()
         {
-            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name");
             return View();
         }
 
@@ -120,7 +127,7 @@ namespace CoreInde.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FistName,LastName,HiringDate,SkillsId")] Employees employees)
+        public async Task<IActionResult> Create([Bind("Id,FistName,LastName,HiringDate")] Employees employees)
         {
             if (ModelState.IsValid)
             {
@@ -128,10 +135,8 @@ namespace CoreInde.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SkillsId"] = new SelectList(_context.Skills, "Id", "Name", employees.SkillsId);
             return View(employees);
         }
-
 
 
 
